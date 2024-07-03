@@ -1,27 +1,53 @@
-import React from "react";
-import { StyleSheet, Button, View, ActivityIndicator, Dimensions, Text, Platform } from "react-native";
+import React, { useState } from "react";
+import { StyleSheet, View, Text, TouchableHighlight } from "react-native";
 
-const { height, width } = Dimensions.get('window');
 
 export default function App() {
-  const onButtonPress = () => {
-    console.log("Button pressed!");
+  const [backgroundColor, setBackgroundColor] = useState("blue");
+
+
+  function ColorButton({ backgroundColor }) {
+    return (
+      <TouchableHighlight style={styles.button} onPress={ ()=> setBackgroundColor(backgroundColor)} underlayColor="orange">
+          <View>
+            <View style={[styles.sample, { backgroundColor }]} />
+            <Text style={styles.buttonText}>{backgroundColor}</Text>
+          </View>
+      </TouchableHighlight>
+    );
   }
 
   return (
-    <View style={styles.page}>
-      <ActivityIndicator size="large" color="#61DBFB" />
-      <Button title="Click me" onPress={onButtonPress}/>
-      <Text>OS: {Platform.OS} </Text>
-      <Text>Height: {height} </Text>
-      <Text>Width: {width} </Text>
-
+    <View style={[styles.container, { backgroundColor }]}>
+     <ColorButton backgroundColor="green"/>
+     <ColorButton backgroundColor="red"/>
+     <ColorButton backgroundColor="blue"/>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  page: {
-    marginTop: 40
+  container: {
+    flex: 1,
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center"
+  },
+  button: {
+   margin: 10,
+   padding: 10,
+   borderColor: "black",
+   borderWidth: 3,
+   alignSelf: "stretch",
+  },
+  buttonText: {
+    fontSize: 30,
+    textAlign: "center"
+  },
+  sample: {
+    height: 10,
+    width: 10,
+    backgroundColor: "white",
+    borderRadius: 10,
   }
 });
